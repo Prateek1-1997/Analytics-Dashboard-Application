@@ -6,11 +6,15 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Query
 
 interface RetrofitService {
 
-    @GET("movielist.json")
-    fun getAllMovies() : Call<List<Movie>>
+    @GET("api/v1/dashboardNew")
+     suspend fun getAllMovies(
+        @Header("Authorization") auth:String
+    ) : ExampleJson2KtKotlin
 
     companion object {
 
@@ -20,7 +24,7 @@ interface RetrofitService {
 
             if (retrofitService == null) {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("https://howtodoandroid.com/")
+                    .baseUrl("https://api.inopenapp.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 retrofitService = retrofit.create(RetrofitService::class.java)

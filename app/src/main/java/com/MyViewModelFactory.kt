@@ -2,6 +2,8 @@ package com.velmurugan.mvvmretrofitrecyclerviewkotlin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.Models.MainRepository
+import com.Presentation.MainViewModel
 
 class MyViewModelFactory constructor(private val repository: MainRepository): ViewModelProvider.Factory {
 

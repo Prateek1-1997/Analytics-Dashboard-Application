@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:background="#F5F5F5">
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="328dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="#AAF0D1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+       <ImageView
+           android:id="@+id/whats_app_image"
+           android:text="whats_app"
+           android:layout_width="24dp"
+           android:layout_height="24dp"
+           android:layout_marginTop="20dp"
+           app:tint="@color/green_teal"
+           android:src="@drawable/whats_app_icon"
+           android:layout_marginStart="50dp"
+           android:layout_marginEnd="86dp"/>
+        
+        <TextView
+            android:id="@+id/whatsapp_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Talk With Us"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="90dp"
+            android:textColor="#000000" />
+
+
+        
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

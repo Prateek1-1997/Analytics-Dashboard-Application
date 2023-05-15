@@ -1,35 +1,29 @@
-package com
+package com.Presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.Models.DashboardPageData
+import com.Models.MainRepository
+import com.RequestResult
 import com.velmurugan.mvvmretrofitrecyclerviewkotlin.*
+import com.velmurugan.mvvmretrofitrecyclerviewkotlin.databinding.FragmentBlankBinding
 import kotlinx.android.synthetic.main.fragment_blank.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BlankFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class BlankFragment : Fragment() {
+class MovieFragment : Fragment() {
+    lateinit var binding: FragmentBlankBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blank, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +33,7 @@ class BlankFragment : Fragment() {
 
 
     companion object {
-        fun newInstance() = BlankFragment()
+        fun newInstance() = MovieFragment()
 
     }
 
@@ -52,8 +46,8 @@ class BlankFragment : Fragment() {
     private val retrofitService = RetrofitService.getInstance()
     private lateinit var postListViewModel: MainViewModel
     private fun initViewModel(){
-        postListViewModel = ViewModelProvider(this, MyViewModelFactory(MainRepository(retrofitService))).get(MainViewModel::class.java)
-        println("initviewmodel")
+        postListViewModel = ViewModelProvider(this, MyViewModelFactory(MainRepository(retrofitService))).get(
+            MainViewModel::class.java)
     }
 
     private fun initData(){
@@ -61,29 +55,30 @@ class BlankFragment : Fragment() {
     }
 
     private fun initViewModelObserver(){
-        postListViewModel.movieList.observe(viewLifecycleOwner, {
-            onGetPostListResponse(it)
-        })
+        postListViewModel.dashboardDataMLD.observe(viewLifecycleOwner) {
+            if (it is RequestResult.Success)
+                onGetPostListResponse(it.data as DashboardPageData)
+        }
     }
 
     private lateinit var linearLayoutManager: LinearLayoutManager
-    val adapter = MainAdapter()
+    var mAdapter: MainAdapter? = null
     private fun initAdapter() {
-        println("initadapter")
         linearLayoutManager = LinearLayoutManager(activity , RecyclerView.VERTICAL , false)
-        movie_recycler.adapter = adapter
+        mAdapter = MainAdapter()
+        movie_recycler.adapter = mAdapter
         movie_recycler.layoutManager = linearLayoutManager
     }
 
-    private fun onGetPostListResponse(resultResponse : List<Movie>?){
+    private fun onGetPostListResponse(resultResponse : DashboardPageData){
         if (resultResponse != null) {
             adapterListSubmit(resultResponse)
         }
     }
 
-    lateinit var data : ArrayList<*>
-    private fun adapterListSubmit(resultResponse: List<Movie>?) {
-        data = resultResponse as ArrayList<*>
-        adapter.submitList(data)
+    lateinit var data : List<*>
+    private fun adapterListSubmit(resultResponse: DashboardPageData) {
+        data = resultResponse.list!!
+        mAdapter?.submitList(data)
     }
 }
